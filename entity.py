@@ -11,6 +11,7 @@ class Entity:
         self.attack = 0
         self.defence = 0
         self.goes_first = False
+        self.is_dead = False
 
     def roll_dice(self, number_to_roll):
         roll_list = []
@@ -33,6 +34,11 @@ class Entity:
 
     def take_damage(self, x):
         self.hp -= x
+        self.check_for_death()
+
+    def check_for_death(self):
+        if self.hp < 0:
+            self.is_dead = True
 
     def print_stats(self):
         print("HP = {0} Init = {1}   Atk = {2}   Def = {3}".format(self.hp, self.init, self.attack, self.defence))

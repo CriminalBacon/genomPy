@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/LASM.iml" filepath="$PROJECT_DIR$/.idea/LASM.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/genomPy.iml" filepath="$PROJECT_DIR$/.idea/genomPy.iml" />
     </modules>
   </component>
 </project>

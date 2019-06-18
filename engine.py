@@ -17,7 +17,7 @@ player = Entity(6)
 npc = Entity(6)
 random_turn(npc)
 
-while player.hp > 0 or npc.hp > 0:
+while not player.is_dead or not npc.is_dead:
     print("Initiative")
     player.set_init(dice_tools.dice_turn(player))
     print("Attack")
@@ -33,19 +33,26 @@ while player.hp > 0 or npc.hp > 0:
     if player.goes_first:
         if player.attack > npc.defence:
             npc.take_damage(player.attack - npc.defence)
-            if npc.hp <= 0:
+            if npc.is_dead:
                 print("npc dead")
                 break
         if npc.attack > player.defence:
             player.take_damage(npc.attack - player.defence)
+            if player.is_dead:
+                print("player dead")
+                break
+
     else:
         if npc.attack > player.defence:
             player.take_damage(npc.attack - player.defence)
-            if player.hp <= 0:
+            if player.is_dead:
                 print("player dead")
                 break
         if player.attack > npc.defence:
             npc.take_damage(player.attack - npc.defence)
+            if npc.is_dead:
+                print("npc dead")
+                break
 
     player.print_stats()
     npc.print_stats()
