@@ -8,6 +8,7 @@ import random
 import constants
 import gui_elements
 from entity import Entity
+import dice_tools
 
 
 def random_turn(entity):
@@ -78,6 +79,10 @@ def game_main_loop():
     random_turn(player)
     random_turn(npc)
 
+    # initialize dice count
+    dice_count = 0
+
+    # initialize game state
     game_quit = False
 
     # creates text boxes for hp, initiative, attack, defence
@@ -95,15 +100,40 @@ def game_main_loop():
                                            50, 20)
     button_npc_defence = gui_elements.Button(constants.COLOR_WHITE, constants.NPC_X + 100, constants.NPC_Y + 350, 50, 20)
 
+    button_roll_dice = gui_elements.Button(constants.COLOR_BLUE, constants.PLAYER_X + 175, constants.PLAYER_Y + 400,
+                                           100, 50, "Roll")
+    button_dice_number = gui_elements.Button(constants.COLOR_GOLD, constants.PLAYER_X + 100, constants.PLAYER_Y + 400,
+                                             40, 40)
 
     while not game_quit:
 
-        # wait for  player input
-        event = pygame.event.wait()
+        ##### wait for  player input
+        # event = pygame.event.wait()
 
-        # process input
-        if event.type == pygame.QUIT:
-            game_quit = True
+        for event in pygame.event.get():
+            mouse_pos = pygame.mouse.get_pos()
+
+            # process input
+            if event.type == pygame.QUIT:
+                game_quit = True
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if button_roll_dice.is_over(mouse_pos):
+                    print("clicked button")
+                    dice_rolled = player.roll_dice(dice_count)
+                    print("dice rolled", dice_rolled)
+                    button_player_init.text = str(dice_tools.sum_dice(dice_rolled))
+
+                    # reset dice count
+                    dice_count = 0
+                    button_dice_number.text = str(dice_count)
+
+                if button_dice_number.is_over(mouse_pos):
+                    dice_count += 1
+                    button_dice_number.text = str(dice_count)
+
+
+
 
 
 
@@ -121,6 +151,8 @@ def game_main_loop():
         button_npc_attack.draw(surface_main)
         button_player_defence.draw(surface_main)
         button_npc_defence.draw(surface_main)
+        button_roll_dice.draw(surface_main, True)
+        button_dice_number.draw(surface_main, True)
 
         # update display and draw elements
         pygame.display.flip()

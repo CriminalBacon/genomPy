@@ -15,11 +15,12 @@ class Entity:
 
     def roll_dice(self, number_to_roll):
         roll_list = []
-        if number_to_roll <= self.dice_pool:
-            self.dice_pool -= number_to_roll
+# FIXME took out check to test gui
+#       if number_to_roll <= self.dice_pool:
+#           self.dice_pool -= number_to_roll
 
-            for x in range(number_to_roll):
-                roll_list.append(random.randint(1, 6))
+        for x in range(number_to_roll):
+            roll_list.append(random.randint(1, 6))
 
         return roll_list
 
