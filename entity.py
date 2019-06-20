@@ -12,6 +12,9 @@ class Entity:
         self.defence = 0
         self.goes_first = False
         self.is_dead = False
+        self.has_attacked = False
+        self.has_defended = False
+        self.stance = ''
 
     def roll_dice(self, number_to_roll):
         roll_list = []
