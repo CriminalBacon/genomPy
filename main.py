@@ -79,40 +79,17 @@ def game_main_loop():
     game_quit = False
     engine.reset_stance(player, npc)
 
-    # creates text boxes for hp, initiative, attack, defence
-    button_player_hp = gui_elements.Button(constants.COLOR_WHITE, constants.PLAYER_X + 100, constants.PLAYER_Y + 200,
-                                           50, 25)
-    button_npc_hp = gui_elements.Button(constants.COLOR_WHITE, constants.NPC_X + 100, constants.NPC_Y + 200, 50, 25)
-
-    button_player_init = gui_elements.Button(constants.COLOR_WHITE, constants.PLAYER_X + 100, constants.PLAYER_Y + 250,
-                                           50, 25)
-    button_npc_init = gui_elements.Button(constants.COLOR_WHITE, constants.NPC_X + 100, constants.NPC_Y + 250, 50, 25)
-    button_player_attack = gui_elements.Button(constants.COLOR_WHITE, constants.PLAYER_X + 100, constants.PLAYER_Y + 300,
-                                           50, 25)
-    button_npc_attack = gui_elements.Button(constants.COLOR_WHITE, constants.NPC_X + 100, constants.NPC_Y + 300, 50, 25)
-    button_player_defence = gui_elements.Button(constants.COLOR_WHITE, constants.PLAYER_X + 100, constants.PLAYER_Y + 350,
-                                           50, 25)
-    button_npc_defence = gui_elements.Button(constants.COLOR_WHITE, constants.NPC_X + 100, constants.NPC_Y + 350, 50, 25)
-
-    button_roll_dice = gui_elements.Button(constants.COLOR_CYAN, constants.PLAYER_X + 175, constants.PLAYER_Y + 400,
-                                           100, 50, "Roll")
-    button_dice_number = gui_elements.Button(constants.COLOR_GOLD, constants.PLAYER_X + 100, constants.PLAYER_Y + 400,
-                                             40, 40)
-    button_dice_pool = gui_elements.Button(constants.COLOR_MAGENTA, constants.PLAYER_X + 25, constants.PLAYER_Y + 400,
-                                             40, 40)
-
-    button_next_turn = gui_elements.Button(constants.COLOR_RED, constants.PLAYER_X + 325, constants.PLAYER_Y + 400,
-                                           40, 40, ">")
-
-    button_debug = gui_elements.Button(constants.COLOR_WHITE, 0, 0, 300, 40)
-
+    # create dictionary of gui elements
+    dict_button = gui_elements.create_button_dictionary()
 
     while not game_quit:
 
         # set hp
-        button_player_hp.text = str(player.hp)
-        button_npc_hp.text = str(npc.hp)
-        button_dice_pool.text = str(player.dice_pool)
+        # button_player_hp.text = str(player.hp)
+        dict_button["button_player_hp"].text = str(player.hp)
+        dict_button["button_npc_hp"].text = str(npc.hp)
+        # button_npc_hp.text = str(npc.hp)
+        dict_button["button_dice_pool"].text = str(player.dice_pool)
 
         for event in pygame.event.get():
             mouse_pos = pygame.mouse.get_pos()
@@ -123,14 +100,14 @@ def game_main_loop():
 
             if event.type == pygame.MOUSEBUTTONDOWN:
 
-                if button_roll_dice.is_over(mouse_pos):
+                if dict_button["button_roll_dice"].is_over(mouse_pos):
 
                     if player.stance == 'init':
                         dice_rolled = player.roll_dice(dice_count)
                         print("dice rolled", dice_rolled)
                         player.init = dice_tools.sum_dice(dice_rolled)
-                        button_player_init.text = str(player.init)
-                        button_npc_init.text = str(npc.init)
+                        dict_button["button_player_init"].text = str(player.init)
+                        dict_button["button_npc_init"].text = str(npc.init)
 
                         engine.roll_for_initiative(player, npc)
 
@@ -138,22 +115,22 @@ def game_main_loop():
                         player.dice_pool -= dice_count
                         # reset dice count
                         dice_count = 0
-                        button_dice_number.text = str(dice_count)
+                        dict_button["button_dice_number"].text = str(dice_count)
                         break
 
                     if player.stance == 'attack':
                         dice_rolled = player.roll_dice(dice_count)
                         print("dice rolled", dice_rolled)
                         player.attack = dice_tools.sum_dice(dice_rolled)
-                        button_player_attack.text = str(player.attack)
-                        button_npc_defence.text = str(npc.defence)
+                        dict_button["button_player_attack"].text = str(player.attack)
+                        dict_button["button_npc_defence"].text = str(npc.defence)
                         engine.roll_for_attack(player, npc)
 
                         # update dice pool
                         player.dice_pool -= dice_count
                         # reset dice count
                         dice_count = 0
-                        button_dice_number.text = str(dice_count)
+                        dict_button["button_dice_number"].text = str(dice_count)
                         player.has_attacked = True
                         break
 
@@ -161,8 +138,8 @@ def game_main_loop():
                         dice_rolled = player.roll_dice(dice_count)
                         print("dice rolled", dice_rolled)
                         player.defence = dice_tools.sum_dice(dice_rolled)
-                        button_player_defence.text = str(player.defence)
-                        button_npc_attack.text = str(npc.attack)
+                        dict_button["button_player_defence"].text = str(player.defence)
+                        dict_button["button_npc_attack"].text = str(npc.attack)
 
                         engine.roll_for_attack(npc, player)
 
@@ -171,32 +148,32 @@ def game_main_loop():
                         player.dice_pool -= dice_count
                         # reset dice count
                         dice_count = 0
-                        button_dice_number.text = str(dice_count)
+                        dict_button["button_dice_number"].text = str(dice_count)
                         player.has_defended = True
                         break
 
-                if button_dice_number.is_over(mouse_pos):
+                if dict_button["button_dice_number"].is_over(mouse_pos):
                     dice_count += 1
-                    button_dice_number.text = str(dice_count)
+                    dict_button["button_dice_number"].text = str(dice_count)
 
-                if button_next_turn.is_over(mouse_pos):
+                if dict_button["button_next_turn"].is_over(mouse_pos):
                     # reset game state
                     engine.reset_stance(player, npc)
 
-                    button_player_init.text = str('')
-                    button_npc_init.text = str('')
+                    dict_button["button_player_init"].text = str('')
+                    dict_button["button_npc_init"].text = str('')
 
-                    button_player_attack.text = str('')
-                    button_npc_attack.text = str('')
+                    dict_button["button_player_attack"].text = str('')
+                    dict_button["button_npc_attack"].text = str('')
 
-                    button_player_defence.text = str('')
-                    button_npc_defence.text = str('')
+                    dict_button["button_player_defence"].text = str('')
+                    dict_button["button_npc_defence"].text = str('')
 
                     # reset dice pool to max dice pool
                     player.dice_pool = player.max_dice_pool
                     npc.dice_pool = npc.max_dice_pool
 
-                    button_dice_number.text = str('')
+                    dict_button["button_dice_number"].text = str('')
 
                     engine.random_turn(npc)
 
@@ -211,20 +188,14 @@ def game_main_loop():
         # draw game
 
         draw_game(surface_main, player, npc)
-        button_player_hp.draw(surface_main)
-        button_npc_hp.draw(surface_main)
-        button_player_init.draw(surface_main)
-        button_npc_init.draw(surface_main)
-        button_player_attack.draw(surface_main)
-        button_npc_attack.draw(surface_main)
-        button_player_defence.draw(surface_main)
-        button_npc_defence.draw(surface_main)
-        button_roll_dice.draw(surface_main, True)
-        button_dice_number.draw(surface_main, True)
-        button_dice_pool.draw(surface_main, True)
+
+        # FIXME
+        for x in dict_button:
+            if x != "button_next_turn":
+                dict_button[x].draw(surface_main, True)
 
         if player.has_attacked and player.has_defended:
-            button_next_turn.draw(surface_main, True)
+            dict_button["button_next_turn"].draw(surface_main, True)
 
         # #### debug button #####
         # button_debug.text = str(player.has_attacked) + ' ' + str(player.has_defended) + ' ' + player.stance
