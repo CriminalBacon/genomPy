@@ -1,4 +1,6 @@
 # 3rd party modules
+import sys
+
 import tcod as libtcod
 import pygame
 import random
@@ -118,8 +120,6 @@ def game_main_loop():
             # process input
             if event.type == pygame.QUIT:
                 game_quit = True
-                pygame.quit()
-                exit()
 
             if event.type == pygame.MOUSEBUTTONDOWN:
 
@@ -194,6 +194,7 @@ def game_main_loop():
 
                     # reset dice pool to max dice pool
                     player.dice_pool = player.max_dice_pool
+                    npc.dice_pool = npc.max_dice_pool
 
                     button_dice_number.text = str('')
 
@@ -226,15 +227,15 @@ def game_main_loop():
             button_next_turn.draw(surface_main, True)
 
         # #### debug button #####
-        button_debug.text = str(player.has_attacked) + ' '  + str(player.has_defended) + ' ' + player.stance
-        button_debug.draw(surface_main)
+        # button_debug.text = str(player.has_attacked) + ' ' + str(player.has_defended) + ' ' + player.stance
+        # button_debug.draw(surface_main)
         # ####              #####
         # update display and draw elements
         pygame.display.flip()
 
     # quit game
     pygame.quit()
-    exit()
+    sys.exit()
 
 
 if __name__ == '__main__':
