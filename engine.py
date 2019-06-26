@@ -1,5 +1,6 @@
 import random
 
+
 def roll_for_initiative(player, npc):
     if player.init >= npc.init:
         player.stance = 'attack'

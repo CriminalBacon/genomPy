@@ -1,12 +1,9 @@
-# 3rd party modules
+# modules
 import sys
-
 import tcod as libtcod
 import pygame
-import random
 
-# game file
-
+# game files
 import constants
 import gui_elements
 from entity import Entity
@@ -17,22 +14,22 @@ import engine
 def draw_headers(surface):
 
     # HP
-    text_hp_player_header = GAME_FONT.render('HP', True, constants.COLOR_GREEN)
-    text_hp_npc_header = GAME_FONT.render('HP', True, constants.COLOR_GREEN)
-    surface.blit(text_hp_player_header, (constants.PLAYER_X, constants.PLAYER_Y + 200))
-    surface.blit(text_hp_npc_header, (constants.NPC_X, constants.NPC_Y + 200))
-
-    # INIT
     text_init_player_header = GAME_FONT.render('INIT', True, constants.COLOR_GREEN)
     text_init_npc_header = GAME_FONT.render('INIT', True, constants.COLOR_GREEN)
-    surface.blit(text_init_player_header, (constants.PLAYER_X, constants.PLAYER_Y + 250))
-    surface.blit(text_init_npc_header, (constants.NPC_X, constants.NPC_Y + 250))
+    surface.blit(text_init_player_header, (constants.PLAYER_X, constants.PLAYER_Y + 200))
+    surface.blit(text_init_npc_header, (constants.NPC_X, constants.NPC_Y + 200))
 
-    # ATTACK
+    # INIT
     text_atk_player_header = GAME_FONT.render('ATK', True, constants.COLOR_GREEN)
     text_atk_npc_header = GAME_FONT.render('ATK', True, constants.COLOR_GREEN)
-    surface.blit(text_atk_player_header, (constants.PLAYER_X, constants.PLAYER_Y + 300))
-    surface.blit(text_atk_npc_header, (constants.NPC_X, constants.NPC_Y + 300))
+    surface.blit(text_atk_player_header, (constants.PLAYER_X, constants.PLAYER_Y + 250))
+    surface.blit(text_atk_npc_header, (constants.NPC_X, constants.NPC_Y + 250))
+
+    # ATTACK
+    text_dmg_player_header = GAME_FONT.render('DMG', True, constants.COLOR_GREEN)
+    text_dmg_npc_header = GAME_FONT.render('DMG', True, constants.COLOR_GREEN)
+    surface.blit(text_dmg_player_header, (constants.PLAYER_X, constants.PLAYER_Y + 300))
+    surface.blit(text_dmg_npc_header, (constants.NPC_X, constants.NPC_Y + 300))
 
     # DEFENCE
     text_def_player_header = GAME_FONT.render('DEF', True, constants.COLOR_GREEN)
@@ -90,6 +87,8 @@ def game_main_loop():
         dict_button["button_npc_hp"].text = str(npc.hp)
         # button_npc_hp.text = str(npc.hp)
         dict_button["button_dice_pool"].text = str(player.dice_pool)
+
+
 
         for event in pygame.event.get():
             mouse_pos = pygame.mouse.get_pos()
@@ -175,6 +174,10 @@ def game_main_loop():
 
                     dict_button["button_dice_number"].text = str('')
 
+                    # reset button color
+                    for x in dict_button:
+                        dict_button[x].set_original_color()
+
                     engine.random_turn(npc)
 
                 if player.has_attacked and not player.has_defended:
@@ -189,7 +192,16 @@ def game_main_loop():
 
         draw_game(surface_main, player, npc)
 
-        # FIXME
+        # highlight which box is being rolled for
+        if player.stance == 'attack':
+            dict_button["button_player_attack"].set_color(constants.COLOR_LIGHT_YELLOW)
+            dict_button["button_player_defence"].set_original_color()
+
+        if player.stance == 'defence':
+            dict_button["button_player_defence"].set_color(constants.COLOR_LIGHT_YELLOW)
+            dict_button["button_player_attack"].set_original_color()
+
+
         for x in dict_button:
             if x != "button_next_turn":
                 dict_button[x].draw(surface_main, True)
@@ -201,6 +213,8 @@ def game_main_loop():
         # button_debug.text = str(player.has_attacked) + ' ' + str(player.has_defended) + ' ' + player.stance
         # button_debug.draw(surface_main)
         # ####              #####
+
+
         # update display and draw elements
         pygame.display.flip()
 

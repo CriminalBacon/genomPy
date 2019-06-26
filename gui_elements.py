@@ -5,6 +5,7 @@ import constants
 class Button:
     def __init__(self, color, x, y, width, height, text=''):
         self.color = color
+        self.original_color = color
         self.x = x
         self.y = y
         self.width = width
@@ -31,21 +32,33 @@ class Button:
 
         return False
 
+    def set_color(self, new_color):
+        self.color = new_color
+
+    def set_original_color(self):
+        self.color = self.original_color
+
 
 def create_button_dictionary():
     dict_button = {}
 
-    dict_button["button_player_hp"] = Button(constants.COLOR_WHITE, constants.PLAYER_X + 100, constants.PLAYER_Y + 200,
+    dict_button["button_player_hp"] = Button(constants.COLOR_GREY, constants.PLAYER_X + 100, constants.PLAYER_Y + 25,
                                            50, 25)
-    dict_button["button_npc_hp"] = Button(constants.COLOR_WHITE, constants.NPC_X + 100, constants.NPC_Y + 200, 50, 25)
+    dict_button["button_npc_hp"] = Button(constants.COLOR_GREY, constants.NPC_X + 100, constants.NPC_Y + 25, 50, 25)
 
-    dict_button["button_player_init"] = Button(constants.COLOR_WHITE, constants.PLAYER_X + 100, constants.PLAYER_Y + 250,
+    dict_button["button_player_init"] = Button(constants.COLOR_WHITE, constants.PLAYER_X + 100, constants.PLAYER_Y + 200,
                                            50, 25)
-    dict_button["button_npc_init"] = Button(constants.COLOR_WHITE, constants.NPC_X + 100, constants.NPC_Y + 250, 50, 25)
+    dict_button["button_npc_init"] = Button(constants.COLOR_WHITE, constants.NPC_X + 100, constants.NPC_Y + 200, 50, 25)
 
-    dict_button["button_player_attack"] = Button(constants.COLOR_WHITE, constants.PLAYER_X + 100, constants.PLAYER_Y + 300,
+    dict_button["button_player_attack"] = Button(constants.COLOR_WHITE, constants.PLAYER_X + 100, constants.PLAYER_Y + 250,
                                            50, 25)
-    dict_button["button_npc_attack"] = Button(constants.COLOR_WHITE, constants.NPC_X + 100, constants.NPC_Y + 300, 50, 25)
+    dict_button["button_npc_attack"] = Button(constants.COLOR_WHITE, constants.NPC_X + 100, constants.NPC_Y + 250, 50, 25)
+
+    dict_button["button_player_damage"] = Button(constants.COLOR_WHITE, constants.PLAYER_X + 100, constants.PLAYER_Y + 300,
+                                                 50, 25)
+
+    dict_button["button_npc_damage"] = Button(constants.COLOR_WHITE, constants.NPC_X + 100, constants.NPC_Y + 300,
+                                              50, 25)
 
     dict_button["button_player_defence"] = Button(constants.COLOR_WHITE, constants.PLAYER_X + 100, constants.PLAYER_Y + 350,
                                            50, 25)
@@ -54,11 +67,11 @@ def create_button_dictionary():
     dict_button["button_roll_dice"] = Button(constants.COLOR_CYAN, constants.PLAYER_X + 175, constants.PLAYER_Y + 400,
                                            100, 50, "Roll")
     dict_button["button_dice_number"] = Button(constants.COLOR_GOLD, constants.PLAYER_X + 100, constants.PLAYER_Y + 400,
-                                             40, 40)
+                                             40, 40, "0")
     dict_button["button_dice_pool"] = Button(constants.COLOR_MAGENTA, constants.PLAYER_X + 25, constants.PLAYER_Y + 400,
                                              40, 40)
     dict_button["button_next_turn"] = Button(constants.COLOR_RED, constants.PLAYER_X + 325, constants.PLAYER_Y + 400,
                                            40, 40, ">")
-    dict_button["button_debug"] = Button(constants.COLOR_WHITE, 0, 0, 300, 40)
+    # dict_button["button_debug"] = Button(constants.COLOR_WHITE, 0, 0, 300, 40)
 
     return dict_button
