@@ -9,23 +9,23 @@ class Entity:
         self.hp = 20
         self.init = 0
         self.attack = 0
+        self.damage = 0
         self.defence = 0
-        self.goes_first = False
         self.is_dead = False
-        self.has_attacked = False
-        self.has_defended = False
-        self.stance = ''
+        self.turn = []
+        self.dice_number_to_roll = 0
+        self.current_dice_roll = []
+        self.finished_turn = False
 
     def roll_dice(self, number_to_roll):
-        roll_list = []
-# FIXME took out check to test gui
-#       if number_to_roll <= self.dice_pool:
-#           self.dice_pool -= number_to_roll
 
         for x in range(number_to_roll):
-            roll_list.append(random.randint(1, 6))
+            self.current_dice_roll.append(random.randint(1, 6))
 
-        return roll_list
+        # decrement dice pool
+        self.dice_pool -= number_to_roll
+
+        return self.current_dice_roll
 
     def set_init(self, rolled_init):
         self.init = sum_dice(rolled_init)
@@ -47,6 +47,19 @@ class Entity:
     def print_stats(self):
         print("HP = {0} Init = {1}   Atk = {2}   Def = {3}".format(self.hp, self.init, self.attack, self.defence))
 
-    def reset(self):
+    def reset_dice_pool(self):
         self.dice_pool = self.max_dice_pool
+
+    def reset_current_roll(self):
+        self.current_dice_roll = []
+
+    def reset_turn(self):
+        self.turn = ['init']
+        self.finished_turn = False
+        self.attack = ''
+        self.damage = ''
+        self.defence = ''
+        self.init = ''
+        self.dice_number_to_roll = 0
+        self.current_dice_roll = []
 

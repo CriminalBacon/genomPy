@@ -39,39 +39,113 @@ class Button:
         self.color = self.original_color
 
 
-def create_button_dictionary():
+def create_button_dictionary(player, npc):
     dict_button = {}
 
-    dict_button["button_player_hp"] = Button(constants.COLOR_GREY, constants.PLAYER_X + 100, constants.PLAYER_Y + 25,
-                                           50, 25)
-    dict_button["button_npc_hp"] = Button(constants.COLOR_GREY, constants.NPC_X + 100, constants.NPC_Y + 25, 50, 25)
+    dict_button["button_player_hp"] = Button(constants.COLOR_GREY, constants.PLAYER_X + 40, constants.PLAYER_Y - 40,
+                                           50, 25, str(player.hp))
 
-    dict_button["button_player_init"] = Button(constants.COLOR_WHITE, constants.PLAYER_X + 100, constants.PLAYER_Y + 200,
-                                           50, 25)
-    dict_button["button_npc_init"] = Button(constants.COLOR_WHITE, constants.NPC_X + 100, constants.NPC_Y + 200, 50, 25)
+    dict_button["button_npc_hp"] = Button(constants.COLOR_GREY, constants.NPC_X + 40, constants.NPC_Y - 40, 50, 25,
+                                          str(npc.hp))
 
-    dict_button["button_player_attack"] = Button(constants.COLOR_WHITE, constants.PLAYER_X + 100, constants.PLAYER_Y + 250,
-                                           50, 25)
-    dict_button["button_npc_attack"] = Button(constants.COLOR_WHITE, constants.NPC_X + 100, constants.NPC_Y + 250, 50, 25)
+    dict_button["button_player_init"] = Button(constants.COLOR_WHITE, constants.PLAYER_X - 30, constants.PLAYER_Y + 10,
+                                           30, 25, str(player.init))
 
-    dict_button["button_player_damage"] = Button(constants.COLOR_WHITE, constants.PLAYER_X + 100, constants.PLAYER_Y + 300,
-                                                 50, 25)
+    dict_button["button_npc_init"] = Button(constants.COLOR_WHITE, constants.NPC_X + 125, constants.NPC_Y + 10, 30, 25,
+                                            str(npc.init))
 
-    dict_button["button_npc_damage"] = Button(constants.COLOR_WHITE, constants.NPC_X + 100, constants.NPC_Y + 300,
-                                              50, 25)
+    dict_button["button_player_attack"] = Button(constants.COLOR_WHITE, constants.PLAYER_X - 30, constants.PLAYER_Y + 60,
+                                           30, 25, str(player.attack))
 
-    dict_button["button_player_defence"] = Button(constants.COLOR_WHITE, constants.PLAYER_X + 100, constants.PLAYER_Y + 350,
-                                           50, 25)
-    dict_button["button_npc_defence"] = Button(constants.COLOR_WHITE, constants.NPC_X + 100, constants.NPC_Y + 350, 50, 25)
+    dict_button["button_npc_attack"] = Button(constants.COLOR_WHITE, constants.NPC_X + 125, constants.NPC_Y + 60, 30, 25,
+                                              str(npc.attack))
 
-    dict_button["button_roll_dice"] = Button(constants.COLOR_CYAN, constants.PLAYER_X + 175, constants.PLAYER_Y + 400,
-                                           100, 50, "Roll")
-    dict_button["button_dice_number"] = Button(constants.COLOR_GOLD, constants.PLAYER_X + 100, constants.PLAYER_Y + 400,
+    dict_button["button_player_damage"] = Button(constants.COLOR_WHITE, constants.PLAYER_X - 30, constants.PLAYER_Y + 110,
+                                                 30, 25, str(player.damage))
+
+    dict_button["button_npc_damage"] = Button(constants.COLOR_WHITE, constants.NPC_X + 125, constants.NPC_Y + 110,
+                                              30, 25, str(npc.damage))
+
+    dict_button["button_player_defence"] = Button(constants.COLOR_WHITE, constants.PLAYER_X - 30, constants.PLAYER_Y + 160,
+                                           30, 25, str(player.defence))
+
+    dict_button["button_npc_defence"] = Button(constants.COLOR_WHITE, constants.NPC_X + 125, constants.NPC_Y + 160, 30,
+                                               25, str(npc.defence))
+
+    dict_button["button_dice_pool"] = Button(constants.COLOR_MAGENTA, constants.PLAYER_X + 135, constants.PLAYER_Y + 50,
+                                             40, 40, str(player.dice_pool))
+
+    dict_button["button_dice_number"] = Button(constants.COLOR_GOLD, constants.PLAYER_X + 135, constants.PLAYER_Y + 125,
                                              40, 40, "0")
-    dict_button["button_dice_pool"] = Button(constants.COLOR_MAGENTA, constants.PLAYER_X + 25, constants.PLAYER_Y + 400,
-                                             40, 40)
-    dict_button["button_next_turn"] = Button(constants.COLOR_RED, constants.PLAYER_X + 325, constants.PLAYER_Y + 400,
-                                           40, 40, ">")
+
+    dict_button["button_npc_dice_pool"] = Button(constants.COLOR_MAGENTA, constants.NPC_X - 60, constants.NPC_Y + 50,
+                                             40, 40, str(player.dice_pool))
+
+    dict_button["button_npc_dice_number"] = Button(constants.COLOR_GOLD, constants.NPC_X - 60, constants.NPC_Y + 125,
+                                             40, 40, "0")
+
+    dict_button["button_roll_dice"] = Button(constants.COLOR_CYAN, constants.PLAYER_X + 200, constants.PLAYER_Y + 200,
+                                           100, 50, "Roll")
+
+    dict_button["button_next_turn"] = Button(constants.COLOR_RED, constants.PLAYER_X + 301, constants.PLAYER_Y + 200,
+                                           20, 50, ">")
+
+    dict_button["button_turn_display"] = Button(constants.COLOR_WHITE, constants.PLAYER_X + 200, constants.PLAYER_Y - 100,
+                                                125, 40, str(player.turn[0]))
+
     # dict_button["button_debug"] = Button(constants.COLOR_WHITE, 0, 0, 300, 40)
 
     return dict_button
+
+
+def update_button_dictionary(dict_button, player, npc):
+    dict_button["button_player_hp"].text = str(player.hp)
+    dict_button["button_npc_hp"].text = str(npc.hp)
+
+    dict_button["button_player_init"].text = str(player.init)
+    dict_button["button_npc_init"].text = str(npc.init)
+
+    dict_button["button_player_attack"].text = str(player.attack)
+    dict_button["button_npc_attack"].text = str(npc.attack)
+
+    dict_button["button_player_damage"].text = str(player.damage)
+    dict_button["button_npc_damage"].text = str(npc.damage)
+
+    dict_button["button_player_defence"].text = str(player.defence)
+    dict_button["button_npc_defence"].text = str(npc.defence)
+
+    dict_button["button_dice_pool"].text = str(player.dice_pool)
+
+    dict_button["button_dice_number"].text = str(player.dice_number_to_roll)
+
+    dict_button["button_turn_display"].text = str(player.turn[0])
+
+    return dict_button
+
+
+def draw_headers(surface):
+    text_init_player_header = constants.HEADER_FONT.render('INIT', True, constants.COLOR_GREEN)
+    # text_init_player_header = GAME_FONT.render('INIT', True, constants.COLOR_GREEN)
+    text_init_npc_header = constants.HEADER_FONT.render('INIT', True, constants.COLOR_GREEN)
+    surface.blit(text_init_player_header, (constants.PLAYER_X, constants.PLAYER_Y + 200))
+    surface.blit(text_init_npc_header, (constants.NPC_X, constants.NPC_Y + 200))
+
+    # INIT
+    text_atk_player_header = constants.HEADER_FONT.render('ATK', True, constants.COLOR_GREEN)
+    text_atk_npc_header = constants.HEADER_FONT.render('ATK', True, constants.COLOR_GREEN)
+    surface.blit(text_atk_player_header, (constants.PLAYER_X, constants.PLAYER_Y + 250))
+    surface.blit(text_atk_npc_header, (constants.NPC_X, constants.NPC_Y + 250))
+
+    # ATTACK
+    text_dmg_player_header = constants.HEADER_FONT.render('DMG', True, constants.COLOR_GREEN)
+    text_dmg_npc_header = constants.HEADER_FONT.render('DMG', True, constants.COLOR_GREEN)
+    surface.blit(text_dmg_player_header, (constants.PLAYER_X, constants.PLAYER_Y + 300))
+    surface.blit(text_dmg_npc_header, (constants.NPC_X, constants.NPC_Y + 300))
+
+    # DEFENCE
+    text_def_player_header = constants.HEADER_FONT.render('DEF', True, constants.COLOR_GREEN)
+    text_def_npc_header = constants.HEADER_FONT.render('DEF', True, constants.COLOR_GREEN)
+    surface.blit(text_def_player_header, (constants.PLAYER_X, constants.PLAYER_Y + 350))
+    surface.blit(text_def_npc_header, (constants.NPC_X, constants.NPC_Y + 350))
+
+
