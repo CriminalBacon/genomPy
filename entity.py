@@ -62,4 +62,4 @@ class Entity:
         self.init = ''
         self.dice_number_to_roll = 0
         self.current_dice_roll = []
-
+        self.dice_pool = self.max_dice_pool

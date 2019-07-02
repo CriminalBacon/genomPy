@@ -71,20 +71,6 @@ def game_main_loop():
                     player.reset_turn()
                     npc.reset_turn()
 
-                    dict_button["button_player_init"].text = str('')
-                    dict_button["button_npc_init"].text = str('')
-
-                    dict_button["button_player_attack"].text = str('')
-                    dict_button["button_npc_attack"].text = str('')
-
-                    dict_button["button_player_defence"].text = str('')
-                    dict_button["button_npc_defence"].text = str('')
-
-                    # reset dice pool to max dice pool
-                    player.dice_pool = player.max_dice_pool
-                    npc.dice_pool = npc.max_dice_pool
-
-                    dict_button["button_dice_number"].text = str('')
 
         # draw game
 
